@@ -1,0 +1,22 @@
+package main
+
+import (
+	"os"
+	"log"
+	"riedmann.dev/aoc21/util"
+)
+
+func calculateSolution(input []string) int {
+    //TODO solve
+    return 0
+}
+
+func main() {
+    if len(os.Args) < 2 {
+        log.Fatal("Session Cookie needed as arg to get puzzle input!")
+    }
+	sessioncookie := os.Args[1]
+	input := util.GetPuzzleInput(day, sessioncookie)
+
+	println("Solution: ", calculateSolution(input))
+}

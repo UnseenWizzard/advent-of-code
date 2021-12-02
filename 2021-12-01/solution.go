@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"riedmann.dev/aoc21/util"
 	"strconv"
@@ -44,6 +45,9 @@ func countSlidingWindowIncreases(measurements []int) int {
 }
 
 func main() {
+	if len(os.Args) < 2 {
+		log.Fatal("Session Cookie needed as arg to get puzzle input!")
+	}
 	sessioncookie := os.Args[1]
 	text := util.GetPuzzleInput("1", sessioncookie)
 	input := []int{}

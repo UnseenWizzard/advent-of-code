@@ -74,7 +74,6 @@ func Test_findingFirstWinningBoardsScore(t *testing.T) {
 	}
 }
 
-
 func Test_findingLastWinningBoardsScore(t *testing.T) {
 
 	tests := []struct {

@@ -10,18 +10,18 @@ import (
 )
 
 type cell struct {
-	val int
+	val    int
 	marked bool
 }
 
 type board [][]cell
 
 func parseInput(input []string) (numbers []int, boards []board) {
-	if (len(input) < 3) {
+	if len(input) < 3 {
 		log.Println("Input does not match expectation:", input)
 		return
 	}
-	for _, c := range strings.Split(input[0], ",") { 
+	for _, c := range strings.Split(input[0], ",") {
 		i, err := strconv.Atoi(c)
 		if err != nil {
 			log.Fatal("First input row contained non-integer!")
@@ -61,10 +61,10 @@ func markBoard(b board, val int) (won bool) {
 		winningCols[i] = true
 	}
 
-	for rI := 0; rI < len(b) ; rI++ {
+	for rI := 0; rI < len(b); rI++ {
 		winningRow := true
 		for cI := 0; cI < len(b[rI]); cI++ {
-			if (b[rI][cI].val == val) {
+			if b[rI][cI].val == val {
 				b[rI][cI].marked = true
 			}
 			winningRow = winningRow && b[rI][cI].marked
@@ -95,36 +95,36 @@ func calcuateBoardScore(b board, winningNum int) int {
 }
 
 func calculateSolution(input []string) (firstWinningScore int, lastWinningScore int) {
-    numbers, boards := parseInput(input)
+	numbers, boards := parseInput(input)
 
 	boardWon := make([]bool, len(boards))
 
 	for _, num := range numbers {
 		for bI, b := range boards {
 			won := markBoard(b, num)
-			if (won) {
+			if won {
 				/* For the initial puzzle, we can early exit and return the first winning score.
-				 * To also solve part 2, we run through all numbers, 
+				 * To also solve part 2, we run through all numbers,
 				 * so we know the last winning board's score in addition to the first one to win.
-				*/
+				 */
 
-				if (!boardWon[bI]) {
+				if !boardWon[bI] {
 					boardWon[bI] = true
 					lastWinningScore = calcuateBoardScore(b, num)
-					if (firstWinningScore <= 0) {
+					if firstWinningScore <= 0 {
 						firstWinningScore = lastWinningScore
 					}
 				}
 			}
 		}
 	}
-    return
+	return
 }
 
 func main() {
-    if len(os.Args) < 2 {
-        log.Fatal("Session Cookie needed as arg to get puzzle input!")
-    }
+	if len(os.Args) < 2 {
+		log.Fatal("Session Cookie needed as arg to get puzzle input!")
+	}
 	sessioncookie := os.Args[1]
 	input := util.GetPuzzleInput(day, sessioncookie)
 
@@ -132,4 +132,5 @@ func main() {
 	println("Solution #1: ", firstWinningScore)
 	println("Solution #2: ", lastWinningScore)
 }
+
 const day = "4"

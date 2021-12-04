@@ -10,7 +10,10 @@ test:
 
 run-day:
 	go run riedmann.dev/aoc21/$(DATE) $(auth)
-	go run riedmann.dev/aoc21/$(DATE)-part2 $(auth)
+	@if [ -d "$(DATE)-part2" ]; then\
+		go run riedmann.dev/aoc21/$(DATE)-part2 $(auth) ;\
+	fi
+	
 
 folder:
 	mkdir $(DATE)

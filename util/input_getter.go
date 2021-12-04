@@ -21,5 +21,6 @@ func GetPuzzleInput(day string, sessioncookie string) []string {
 		log.Fatal("Failed to parse puzzle input")
 	}
 	text := string(body)
+	text = strings.TrimSuffix(text, "\n") //remove any trailing newline
 	return strings.Split(text, "\n")
 }

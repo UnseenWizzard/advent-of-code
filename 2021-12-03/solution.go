@@ -50,7 +50,7 @@ func main() {
 	sessioncookie := os.Args[1]
 	input := util.GetPuzzleInput(day, sessioncookie)
 
-	println("Solution: ", calculateSolution(input[:len(input)-1]))
+	println("Solution: ", calculateSolution(input))
 }
 
 const day = "3"

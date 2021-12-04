@@ -94,17 +94,31 @@ func calcuateBoardScore(b board, winningNum int) int {
 	return sumUnmarked * winningNum
 }
 
-func calculateSolution(input []string) int {
+func calculateSolution(input []string) (firstWinningScore int, lastWinningScore int) {
     numbers, boards := parseInput(input)
+
+	boardWon := make([]bool, len(boards))
+
 	for _, num := range numbers {
-		for _, b := range boards {
+		for bI, b := range boards {
 			won := markBoard(b, num)
 			if (won) {
-				return calcuateBoardScore(b, num)
+				/* For the initial puzzle, we can early exit and return the first winning score.
+				 * To also solve part 2, we run through all numbers, 
+				 * so we know the last winning board's score in addition to the first one to win.
+				*/
+
+				if (!boardWon[bI]) {
+					boardWon[bI] = true
+					lastWinningScore = calcuateBoardScore(b, num)
+					if (firstWinningScore <= 0) {
+						firstWinningScore = lastWinningScore
+					}
+				}
 			}
 		}
 	}
-    return 0
+    return
 }
 
 func main() {
@@ -114,6 +128,8 @@ func main() {
 	sessioncookie := os.Args[1]
 	input := util.GetPuzzleInput(day, sessioncookie)
 
-	println("Solution: ", calculateSolution(input))
+	firstWinningScore, lastWinningScore := calculateSolution(input)
+	println("Solution #1: ", firstWinningScore)
+	println("Solution #2: ", lastWinningScore)
 }
 const day = "4"

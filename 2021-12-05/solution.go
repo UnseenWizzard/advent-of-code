@@ -56,14 +56,14 @@ func parsePoint(input string) point {
 	return point{x, y}
 }
 
-func createMap(lines []line, xDimension int, yDimension int, verticalMapping bool) ventMap {
+func createMap(lines []line, xDimension int, yDimension int, diagonalMapping bool) ventMap {
 	vMap := make(ventMap, yDimension+1)
 	for i := range vMap {
 		vMap[i] = make([]int, xDimension+1)
 	}
 
 	for _, l := range lines {
-		if verticalMapping || isStraightLine(l) {
+		if diagonalMapping || isStraightLine(l) {
 			y := l.start.y
 			for x := l.start.x; !endReached(x, y, l.end); x = advance(x, l.start.x, l.end.x) {
 				vMap[y][x] = vMap[y][x] + 1

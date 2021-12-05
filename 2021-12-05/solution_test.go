@@ -7,7 +7,7 @@ func Test_solution(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    []string
-		vertical bool
+		diagonal bool
 		want     int
 	}{
 		{
@@ -62,7 +62,7 @@ func Test_solution(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := calculateSolution(tt.input, tt.vertical); got != tt.want {
+			if got := calculateSolution(tt.input, tt.diagonal); got != tt.want {
 				t.Errorf("calculateSolution() = %v, want %v", got, tt.want)
 			}
 		})

@@ -63,21 +63,9 @@ func createMap(lines []line, xDimension int, yDimension int, verticalMapping boo
 	}
 
 	for _, l := range lines {
-		if l.start.x == l.end.x {
-			//vertical line
-			start, end := sortDirection(l.start.y, l.end.y)
-			for i := start; i <= end; i++ {
-				vMap[i][l.start.x] = vMap[i][l.start.x] + 1
-			}
-		} else if l.start.y == l.end.y {
-			//horizontal line
-			start, end := sortDirection(l.start.x, l.end.x)
-			for i := start; i <= end; i++ {
-				vMap[l.start.y][i] = vMap[l.start.y][i] + 1
-			}
-		} else if verticalMapping {
+		if verticalMapping || isStraightLine(l) {
 			y := l.start.y
-			for x := l.start.x; x != l.end.x; x = advance(x, l.start.x, l.end.x) {
+			for x := l.start.x; !endReached(x, y, l.end); x = advance(x, l.start.x, l.end.x) {
 				vMap[y][x] = vMap[y][x] + 1
 				y = advance(y, l.start.y, l.end.y)
 			}
@@ -90,21 +78,22 @@ func createMap(lines []line, xDimension int, yDimension int, verticalMapping boo
 	return vMap
 }
 
+func isStraightLine(l line) bool {
+	return l.start.x == l.end.x || l.start.y == l.end.y
+}
+
 func advance(pos int, start int, end int) int {
 	if start > end {
-		return pos-1
+		return pos - 1
 	}
 	if start < end {
-		return pos+1
+		return pos + 1
 	}
 	return pos
 }
 
-func sortDirection(a int, b int) (start int, end int) {
-	if a >= b {
-		return b, a
-	}
-	return a, b
+func endReached(x int, y int, end point) bool {
+	return x == end.x && y == end.y
 }
 
 func countIntersectingLines(vMap ventMap) (intersections int) {

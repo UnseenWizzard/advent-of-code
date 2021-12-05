@@ -5,10 +5,10 @@ import "testing"
 func Test_solution(t *testing.T) {
 
 	tests := []struct {
-		name  string
-		input []string
+		name     string
+		input    []string
 		vertical bool
-		want  int
+		want     int
 	}{
 		{
 			"no input",
@@ -51,7 +51,7 @@ func Test_solution(t *testing.T) {
 			12,
 		},
 		{
-			"one intersect",
+			"one diagonal intersect",
 			[]string{
 				"8,0 -> 0,8",
 				"0,0 -> 9,9",

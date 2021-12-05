@@ -56,7 +56,7 @@ func parsePoint(input string) point {
 	return point{x, y}
 }
 
-func createMap(lines []line, xDimension int, yDimension int) ventMap {
+func createMap(lines []line, xDimension int, yDimension int, verticalMapping bool) ventMap {
 	vMap := make(ventMap, yDimension+1)
 	for i := range vMap {
 		vMap[i] = make([]int, xDimension+1)
@@ -75,12 +75,29 @@ func createMap(lines []line, xDimension int, yDimension int) ventMap {
 			for i := start; i <= end; i++ {
 				vMap[l.start.y][i] = vMap[l.start.y][i] + 1
 			}
+		} else if verticalMapping {
+			y := l.start.y
+			for x := l.start.x; x != l.end.x; x = advance(x, l.start.x, l.end.x) {
+				vMap[y][x] = vMap[y][x] + 1
+				y = advance(y, l.start.y, l.end.y)
+			}
+			vMap[l.end.y][l.end.x] = vMap[l.end.y][l.end.x] + 1
 		} else {
 			println("Ignoring diagonal line")
 		}
 	}
 
 	return vMap
+}
+
+func advance(pos int, start int, end int) int {
+	if start > end {
+		return pos-1
+	}
+	if start < end {
+		return pos+1
+	}
+	return pos
 }
 
 func sortDirection(a int, b int) (start int, end int) {
@@ -101,9 +118,9 @@ func countIntersectingLines(vMap ventMap) (intersections int) {
 	return
 }
 
-func calculateSolution(input []string) int {
+func calculateSolution(input []string, verticalMapping bool) int {
 	lines, xDimension, yDimension := parseInput(input)
-	vMap := createMap(lines, xDimension, yDimension)
+	vMap := createMap(lines, xDimension, yDimension, verticalMapping)
 	count := countIntersectingLines(vMap)
 	return count
 }
@@ -115,7 +132,8 @@ func main() {
 	sessioncookie := os.Args[1]
 	input := util.GetPuzzleInput(day, sessioncookie)
 
-	println("Solution: ", calculateSolution(input))
+	println("Solution  : ", calculateSolution(input, false))
+	println("Part 2 Sol: ", calculateSolution(input, true))
 }
 
 const day = "5"

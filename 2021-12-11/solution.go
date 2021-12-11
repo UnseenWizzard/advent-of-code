@@ -112,6 +112,18 @@ func calculateSolution(input []string, steps int) (flashed int) {
     return 
 }
 
+func calculatePartTwo(input []string) (allFlashedInStep int) {
+    octopi := util.ParseIntMap(input)
+	steps := 0
+	for {
+		steps++
+		flashed := step(octopi)
+		if flashed == (len(octopi)) * (len(octopi[0])) {
+			return steps
+		}
+	}
+}
+
 func main() {
     if len(os.Args) < 2 {
         log.Fatal("Session Cookie needed as arg to get puzzle input!")
@@ -120,5 +132,6 @@ func main() {
 	input := util.GetPuzzleInput(day, sessioncookie)
 
 	println("Solution: ", calculateSolution(input, 100))
+	println("All flashed in step: ", calculatePartTwo(input))
 }
 const day = "11"
